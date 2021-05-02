@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
@@ -8,6 +8,6 @@
     <title>Home</title>
 </head>
 <body>
-    <h1>Hello, webpage</h1>
+    <h1 th:text="${welcomeMessage}">Hello, webpage</h1>
 </body>
 </html>
