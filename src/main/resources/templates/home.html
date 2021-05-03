@@ -1,5 +1,5 @@
 <!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" >
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
@@ -7,8 +7,15 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Home</title>
 </head>
+<!--<body>-->
+<!--    <h1 th:text="${welcomeMessage}">Hello, webpage</h1>-->
+<!--    <h2 th:each="msg: ${greetings}" th:text="${msg}" th:unless="${msg.contains('no way')}">Hello, homepage</h2>-->
+<!--</body>-->
 <body>
-    <h1 th:text="${welcomeMessage}">Hello, webpage</h1>
-    <h2 th:each="msg: ${greetings}" th:text="${msg}" th:unless="${msg.contains('no way')}">Hello, homepage</h2>
+    <form action="/simplehome" method="post">
+        <input type="submit" value="Visit me">
+    </form>
+    <h1 th:if="${firstVisit}" th:text="${hello}"></h1>
+    <h1 th:unless="${firstVisit}" th:text="${welcomeBack}"></h1>
 </body>
 </html>
