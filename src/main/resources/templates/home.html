@@ -12,10 +12,13 @@
 <!--    <h2 th:each="msg: ${greetings}" th:text="${msg}" th:unless="${msg.contains('no way')}">Hello, homepage</h2>-->
 <!--</body>-->
 <body>
-    <form action="/simplehome" method="post">
+    <form th:object="${newMessage}" th:action="@{/home}" action="/home" method="post">
+        <input th:field="*{text}" type="text">
         <input type="submit" value="Visit me">
     </form>
+    <!-- could have left string, rather than getting attribute from controller-->
     <h1 th:if="${firstVisit}" th:text="${hello}"></h1>
     <h1 th:unless="${firstVisit}" th:text="${welcomeBack}"></h1>
+    <h1 th:each="msg: ${messageList}" th:text="${msg}" th:unless="${msg.contains('bye')}"> </h1>
 </body>
 </html>
