@@ -31,7 +31,7 @@ public class HomeController {
     private String[] greetings;
 
     @GetMapping("/home")
-    public String getHomePage(@ModelAttribute("newMessage") MessageForm newMessage, Model model){
+    public String getHomePage(@ModelAttribute("messageForm") MessageForm newMessage, Model model){
         model.addAttribute("greetings", List.of("boo", "yah", "no way", "yada yada"));
         model.addAttribute("messageList", this.messageService.getMessages());
         model.addAttribute("welcomeMessage", Instant.now().toString());
@@ -42,7 +42,7 @@ public class HomeController {
     }
 
     @PostMapping("/home")
-    public String addMessage(@ModelAttribute("newMessage") MessageForm messageForm, Model model){
+    public String addMessage(@ModelAttribute("messageForm") MessageForm messageForm, Model model){
         messageService.addMessage(messageForm.getText());
         model.addAttribute("messageList", messageService.getMessages());
         messageForm.setText("");
@@ -54,5 +54,12 @@ public class HomeController {
         return "simplehome";
     }
 
+    @PostMapping("/animal")
+    public String animalPage(@ModelAttribute("messageForm") MessageForm form, Model model){
+        //Exercise seems to want to return home here
+        //return "animal";
+        model.addAttribute("messageList", messageService.getMessages());
+        return "home";
+    }
 
 }
