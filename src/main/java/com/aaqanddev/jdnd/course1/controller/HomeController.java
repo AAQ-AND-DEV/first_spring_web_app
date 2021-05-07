@@ -2,6 +2,7 @@ package com.aaqanddev.jdnd.course1.controller;
 
 import com.aaqanddev.jdnd.course1.model.MessageForm;
 import com.aaqanddev.jdnd.course1.service.MessageService;
+import org.apache.logging.log4j.message.Message;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -27,22 +28,19 @@ public class HomeController {
     @Autowired
     private Boolean firstVisit;
 
-    @Autowired
-    private String[] greetings;
-
     @GetMapping("/home")
-    public String getHomePage(@ModelAttribute("messageForm") MessageForm newMessage, Model model){
+    public String getHomePage(@ModelAttribute("messageForm") MessageForm newMessage, Model model) {
         model.addAttribute("greetings", List.of("boo", "yah", "no way", "yada yada"));
         model.addAttribute("messageList", this.messageService.getMessages());
         model.addAttribute("welcomeMessage", Instant.now().toString());
         model.addAttribute("firstVisit", firstVisit);
-        model.addAttribute("hello", greetings[0]);
-        model.addAttribute("welcomeBack", greetings[1]);
+//        model.addAttribute("hello", greetings[0]);
+//        model.addAttribute("welcomeBack", greetings[1]);
         return "home";
     }
 
     @PostMapping("/home")
-    public String addMessage(@ModelAttribute("messageForm") MessageForm messageForm, Model model){
+    public String addMessage(@ModelAttribute("messageForm") MessageForm messageForm, Model model) {
         messageService.addMessage(messageForm.getText());
         model.addAttribute("messageList", messageService.getMessages());
         messageForm.setText("");
@@ -50,16 +48,34 @@ public class HomeController {
     }
 
     @PostMapping("/simplehome")
-    public String getSimpleHomePage(Model model){
+    public String getSimpleHomePage(Model model) {
         return "simplehome";
     }
 
+    @GetMapping("/animal")
+    public String lowFive(MessageForm messageForm, Model model) {
+        //messageService.addMessage("Welcome, Grasshopper.");
+        model.addAttribute("greetings", messageService.getMessages());
+        return "animal";
+    }
+
     @PostMapping("/animal")
-    public String animalPage(@ModelAttribute("messageForm") MessageForm form, Model model){
-        //Exercise seems to want to return home here
-        //return "animal";
-        model.addAttribute("messageList", messageService.getMessages());
-        return "home";
+    public String animalPage(@ModelAttribute("messageForm") MessageForm form, Model model) {
+        //        String adj = form.getAdjective();
+        //        String name = form.getAnimalName();
+
+        System.out.println("ANIMAL HomeController.java: " + form.getAdjective() + " " + form.getAnimalName());
+        messageService.addMessage(form.getAdjective() + " " + form.getAnimalName());
+        form.setAnimalName("");
+        form.setAdjective("");
+        //TODO could create model object for animalPhrase store it in
+        // message service (drawback is less flexibility)
+        //debug confirms list is being populated, solved list not showing up
+//        List<String> msgs = messageService.getMessages();
+//        System.out.println("HomeController::animalPost: " + msgs.toString());
+
+        model.addAttribute("greetings", messageService.getMessages());
+        return "animal";
     }
 
 }
